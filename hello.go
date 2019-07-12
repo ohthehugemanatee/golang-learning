@@ -5,14 +5,15 @@ import "fmt"
 var helloPrefix = map[string]string{
 	"English": "Hello, ",
 	"Spanish": "Hola, ",
-	"French": "Bonjour, ",
+	"French":  "Bonjour, ",
 }
 
 func main() {
-	fmt.Println(hello("world", ""))
+	fmt.Println(Hello("", ""))
 }
 
-func hello(name string, language string) string {
+// Hello returns "Hello world" in an appropriate language.
+func Hello(name string, language string) string {
 	if name == "" {
 		name = "World"
 	}
