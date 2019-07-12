@@ -10,6 +10,7 @@
 		"--security-opt",
 		"seccomp=unconfined"
 	],
+	"postCreateCommand": "ln -sf /workspaces /go/src/github.com/ohthehugemanatee",
 	"settings": {
 		"go.gopath": "/go"
 	}
