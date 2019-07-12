@@ -9,5 +9,8 @@ func main() {
 }
 
 func hello(name string) string {
+	if name == "" {
+		name = "guy"
+	}
 	return englishHelloPrefix + name
 }
