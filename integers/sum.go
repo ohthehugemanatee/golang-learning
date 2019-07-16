@@ -9,12 +9,9 @@ func Sum(numbers []int) (sum int) {
 }
 
 // SumAll returns sums of all sets you pass in.
-func SumAll(sets ...[]int) []int {
-	length := len(sets)
-	sums := make([]int, length)
-
-	for index, set := range sets {
-		sums[index] = Sum(set)
+func SumAll(sets ...[]int) (sums []int) {
+	for _, set := range sets {
+		sums = append(sums, Sum(set))
 	}
-	return sums
+	return
 }
