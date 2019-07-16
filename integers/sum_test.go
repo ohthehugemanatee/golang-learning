@@ -26,6 +26,7 @@ func TestSumAll(t *testing.T) {
 
 func TestSumAllTails(t *testing.T) {
 	checkResult := func(result, expected []int, t *testing.T) {
+		t.Helper()
 		if !reflect.DeepEqual(result, expected) {
 			t.Errorf("Expected %v, got %v", expected, result)
 		}
