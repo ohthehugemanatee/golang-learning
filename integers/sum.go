@@ -15,3 +15,12 @@ func SumAll(sets ...[]int) (sums []int) {
 	}
 	return
 }
+
+// SumAllTails returns the sums of all values except the HEAD of each array.
+func SumAllTails(sets ...[]int) (sums []int) {
+	for _, set := range sets {
+		sum := Sum(set[1:])
+		sums = append(sums, sum)
+	}
+	return
+}
