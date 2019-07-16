@@ -7,3 +7,14 @@ func Sum(numbers []int) (sum int) {
 	}
 	return
 }
+
+// SumAll returns sums of all sets you pass in.
+func SumAll(sets ...[]int) []int {
+	length := len(sets)
+	sums := make([]int, length)
+
+	for index, set := range sets {
+		sums[index] = Sum(set)
+	}
+	return sums
+}
