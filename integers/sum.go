@@ -19,6 +19,10 @@ func SumAll(sets ...[]int) (sums []int) {
 // SumAllTails returns the sums of all values except the HEAD of each array.
 func SumAllTails(sets ...[]int) (sums []int) {
 	for _, set := range sets {
+		if len(set) == 0 {
+			sums = append(sums, 0)
+			continue
+		}
 		sum := Sum(set[1:])
 		sums = append(sums, sum)
 	}
