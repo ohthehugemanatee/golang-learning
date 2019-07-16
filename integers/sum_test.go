@@ -8,7 +8,7 @@ func TestSum(t *testing.T) {
 		sum := Sum(numbers)
 		expected := 15
 		if sum != expected {
-			t.Errorf("expected '%d' but got '%d'", expected, sum)
+			t.Errorf("expected '%d' but got '%d', gave %v", expected, sum, numbers)
 		}
 	})
 
@@ -17,7 +17,7 @@ func TestSum(t *testing.T) {
 		sum := Sum(numbers)
 		expected := 18
 		if sum != expected {
-			t.Errorf("expected '%d' but got '%d'", expected, sum)
+			t.Errorf("expected '%d' but got '%d', gave %v", expected, sum, numbers)
 		}
 	})
 }
