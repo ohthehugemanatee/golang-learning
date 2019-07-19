@@ -1,4 +1,4 @@
-package rectangle
+package structs
 
 // Rectangle defines... a rectangle.
 type Rectangle struct {

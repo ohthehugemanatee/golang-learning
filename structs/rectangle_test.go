@@ -1,4 +1,4 @@
-package rectangle
+package structs
 
 import (
 	"testing"
