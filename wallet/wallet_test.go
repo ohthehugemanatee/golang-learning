@@ -14,7 +14,7 @@ func TestWallet(t *testing.T) {
 	assertError := func(got error, want string, t *testing.T) {
 		t.Helper()
 		if got == nil {
-			t.Error("Expected an error but didn't get one")
+			t.Fatal("Expected an error but didn't get one")
 		}
 		if got.Error() != want {
 			t.Errorf("Expected error %q but got error %q", want, got)
