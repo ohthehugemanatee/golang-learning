@@ -21,4 +21,16 @@ func TestWallet(t *testing.T) {
 		wallet.Withdraw(Bitcoin(4))
 		checkBalance(wallet, Bitcoin(6), t)
 	})
+	t.Run("Insufficient funds", func(t *testing.T) {
+		startingBalance := Bitcoin(3)
+		wallet := Wallet{balance: startingBalance}
+		err := wallet.Withdraw(Bitcoin(5))
+		if err == nil {
+			t.Error("Expected an overdrawn balance error but didn't get one")
+		}
+		if wallet.Balance() != startingBalance {
+			t.Errorf("Expected balance to stay the same (%s) but got %s", startingBalance, wallet.Balance())
+		}
+
+	})
 }
