@@ -3,11 +3,13 @@ package dictionary
 import "testing"
 
 func TestSearch(t *testing.T) {
-	given := "testEntry"
-	want := "This is a test entry"
-	dictionary := Dictionary{given: want}
-	got := dictionary.Search(given)
-	if got != want {
-		t.Errorf("Got %q, wanted %q, given %q", got, want, given)
-	}
+	t.Run("Valid entry", func(t *testing.T) {
+		word := "testEntry"
+		definition := "This is a test entry"
+		dictionary := Dictionary{given: definition}
+		got := dictionary.Search(word)
+		if got != definition {
+			t.Errorf("Got %q, wanted %q, given %q", got, definition, word)
+		}
+	})
 }
