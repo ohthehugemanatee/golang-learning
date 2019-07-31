@@ -31,11 +31,22 @@ func assertError(got error, want error, t *testing.T) {
 }
 
 func TestAdd(t *testing.T) {
-	dictionary := Dictionary{}
-	testWord := "teknonymy"
-	testDefinition := "The custom of naming a parent after their child"
-	dictionary.Add(testWord, testDefinition)
-	assertDefinition(dictionary, testWord, testDefinition, t)
+	t.Run("Add a new word", func(t *testing.T) {
+		testWord := "teknonymy"
+		testDefinition := "The custom of naming a parent after their child"
+		dictionary := Dictionary{}
+		dictionary.Add(testWord, testDefinition)
+		assertDefinition(dictionary, testWord, testDefinition, t)
+	})
+	t.Run("Add an existing word", func(t *testing.T) {
+		testWord := "teknonymy"
+		testDefinition := "The custom of naming a parent after their child"
+		dictionary := Dictionary{testWord: testDefinition}
+		err := dictionary.Add(testWord, "Some other definition")
+		assertError(err, ErrWordExists, t)
+		got, _ := dictionary.Search(testWord)
+		assertString(got, testDefinition, t)
+	})
 }
 
 func assertDefinition(dictionary Dictionary, testWord string, testDefinition string, t *testing.T) {
@@ -46,5 +57,12 @@ func assertDefinition(dictionary Dictionary, testWord string, testDefinition str
 	}
 	if got != testDefinition {
 		t.Errorf("Definition was not correct. Expected %q, got %q", testDefinition, got)
+	}
+}
+
+func assertString(got string, want string, t *testing.T) {
+	t.Helper()
+	if got != want {
+		t.Errorf("Got %q instead of %q", got, want)
 	}
 }
