@@ -29,3 +29,17 @@ func assertError(got error, want error, t *testing.T) {
 		t.Errorf("Got the wrong error. Expected %q, got %q", want.Error(), got.Error())
 	}
 }
+
+func TestAdd(t *testing.T) {
+	dictionary := Dictionary{}
+	testWord := "teknonymy"
+	testDefinition := "The custom of naming a parent after their child"
+	dictionary.Add(testWord, testDefinition)
+	got, err := dictionary.Search(testWord)
+	if err != nil {
+		t.Errorf("Got error where none was expected: %q", err.Error())
+	}
+	if got != testDefinition {
+		t.Errorf("Definition was not correct. Expected %q, got %q", testDefinition, got)
+	}
+}

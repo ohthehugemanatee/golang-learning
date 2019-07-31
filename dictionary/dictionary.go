@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// ErrNotFound for when the word cannot be found.
 var ErrNotFound = errors.New("could not find the word you were looking for")
 
 // Dictionary of terms and definitions.
@@ -16,4 +17,9 @@ func (d Dictionary) Search(word string) (string, error) {
 		return "", ErrNotFound
 	}
 	return definition, nil
+}
+
+// Add a word/definition pair to the dictionary.
+func (d Dictionary) Add(word string, definition string) {
+	d[word] = definition
 }
