@@ -1,16 +1,19 @@
 package dictionary
 
-import (
-	"errors"
-)
-
-var (
+const (
 	// ErrNotFound for when the word cannot be found.
-	ErrNotFound = errors.New("could not find the word you were looking for")
+	ErrNotFound = DictionaryError("could not find the word you were looking for")
 
 	// ErrWordExists when trying to add a word which already exists in the dict.
-	ErrWordExists = errors.New("Attempted to add a word which already exists in the dictionary")
+	ErrWordExists = DictionaryError("Attempted to add a word which already exists in the dictionary")
 )
+
+// DictionaryError covers problems in dictionary functions
+type DictionaryError string
+
+func (e DictionaryError) Error() string {
+	return string(e)
+}
 
 // Dictionary of terms and definitions.
 type Dictionary map[string]string
