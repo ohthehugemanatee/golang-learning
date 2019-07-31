@@ -61,6 +61,16 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
+func TestDelete(t *testing.T) {
+	testWord := "teknonymy"
+	testDefinition := "The custom of naming a parent after their child"
+	dictionary := Dictionary{testWord: testDefinition}
+	dictionary.Delete(testWord)
+	got, err := dictionary.Search(testWord)
+	assertError(err, ErrNotFound, t)
+	assertString(got, "", t)
+}
+
 func assertDefinition(dictionary Dictionary, testWord string, testDefinition string, t *testing.T) {
 	t.Helper()
 	got, err := dictionary.Search(testWord)
