@@ -49,6 +49,16 @@ func TestAdd(t *testing.T) {
 	})
 }
 
+func TestUpdate(t *testing.T) {
+	testWord := "teknonymy"
+	testDefinition := "The custom of naming a parent after their child"
+	updateDefinition := "Some other definition"
+	dictionary := Dictionary{testWord: testDefinition}
+	dictionary.Update(testWord, updateDefinition)
+	got, _ := dictionary.Search(testWord)
+	assertString(got, updateDefinition, t)
+}
+
 func assertDefinition(dictionary Dictionary, testWord string, testDefinition string, t *testing.T) {
 	t.Helper()
 	got, err := dictionary.Search(testWord)
