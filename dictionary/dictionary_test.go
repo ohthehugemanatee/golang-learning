@@ -35,6 +35,11 @@ func TestAdd(t *testing.T) {
 	testWord := "teknonymy"
 	testDefinition := "The custom of naming a parent after their child"
 	dictionary.Add(testWord, testDefinition)
+	assertDefinition(dictionary, testWord, testDefinition, t)
+}
+
+func assertDefinition(dictionary Dictionary, testWord string, testDefinition string, t *testing.T) {
+	t.Helper()
 	got, err := dictionary.Search(testWord)
 	if err != nil {
 		t.Errorf("Got error where none was expected: %q", err.Error())
