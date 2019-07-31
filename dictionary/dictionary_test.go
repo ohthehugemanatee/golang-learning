@@ -20,16 +20,6 @@ func TestSearch(t *testing.T) {
 	})
 }
 
-func assertError(got error, want error, t *testing.T) {
-	t.Helper()
-	if got.Error() == "" {
-		t.Errorf("Did not get an error where one was expected")
-	}
-	if got != want {
-		t.Errorf("Got the wrong error. Expected %q, got %q", want.Error(), got.Error())
-	}
-}
-
 func TestAdd(t *testing.T) {
 	t.Run("Add a new word", func(t *testing.T) {
 		testWord := "teknonymy"
@@ -50,13 +40,25 @@ func TestAdd(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	testWord := "teknonymy"
-	testDefinition := "The custom of naming a parent after their child"
-	updateDefinition := "Some other definition"
-	dictionary := Dictionary{testWord: testDefinition}
-	dictionary.Update(testWord, updateDefinition)
-	got, _ := dictionary.Search(testWord)
-	assertString(got, updateDefinition, t)
+	t.Run("Update an existing word", func(t *testing.T) {
+		testWord := "teknonymy"
+		testDefinition := "The custom of naming a parent after their child"
+		updateDefinition := "Some other definition"
+		dictionary := Dictionary{testWord: testDefinition}
+		err := dictionary.Update(testWord, updateDefinition)
+		assertError(err, nil, t)
+		got, _ := dictionary.Search(testWord)
+		assertString(got, updateDefinition, t)
+	})
+	t.Run("Update a new word", func(t *testing.T) {
+		testWord := "teknonymy"
+		testDefinition := "The custom of naming a parent after their child"
+		dictionary := Dictionary{}
+		err := dictionary.Update(testWord, testDefinition)
+		assertError(err, ErrWordDoesNotExist, t)
+		got, _ := dictionary.Search(testWord)
+		assertString(got, "", t)
+	})
 }
 
 func assertDefinition(dictionary Dictionary, testWord string, testDefinition string, t *testing.T) {
@@ -74,5 +76,12 @@ func assertString(got string, want string, t *testing.T) {
 	t.Helper()
 	if got != want {
 		t.Errorf("Got %q instead of %q", got, want)
+	}
+}
+
+func assertError(got error, want error, t *testing.T) {
+	t.Helper()
+	if got != want {
+		t.Errorf("Got the wrong error. Got %q, expected %q", got, want)
 	}
 }
