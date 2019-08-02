@@ -51,7 +51,7 @@ Go!`
 			write,
 		}
 		if !reflect.DeepEqual(want, operationsSpy.Calls) {
-			t.Errorf("Sleep and write were not called in alternating order.")
+			t.Errorf("Sleep and write were not called in alternating order. Call order was %v", operationsSpy.Calls)
 		}
 	})
 }
