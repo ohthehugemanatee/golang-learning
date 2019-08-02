@@ -8,7 +8,7 @@ var helloPrefix = map[string]string{
 	"French":  "Bonjour, ",
 }
 
-func main() {
+func _main() {
 	fmt.Println(Hello("", ""))
 }
 
