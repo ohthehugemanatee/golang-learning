@@ -2,32 +2,61 @@ package main
 
 import (
 	"bytes"
+	"reflect"
 	"testing"
 )
 
-type SpySleeper struct {
-	Calls int
+type OperationsSpy struct {
+	Calls []string
 }
 
-func (s *SpySleeper) Sleep() {
-	s.Calls++
+func (s *OperationsSpy) Sleep() {
+	s.Calls = append(s.Calls, sleep)
+}
+
+func (s *OperationsSpy) Write(p []byte) (n int, err error) {
+	s.Calls = append(s.Calls, write)
+	return
 }
 
 func TestCountdown(t *testing.T) {
-	buffer := &bytes.Buffer{}
-	spySleeper := &SpySleeper{}
-	Countdown(buffer, spySleeper)
-	got := buffer.String()
-	want := `3
+	t.Run("Output is correct", func(t *testing.T) {
+		buffer := &bytes.Buffer{}
+		spySleeper := &OperationsSpy{}
+		Countdown(buffer, spySleeper)
+		got := buffer.String()
+		want := `3
 2
 1
 Go!`
-	if got != want {
-		t.Errorf("Got %q, wanted %q", got, want)
-	}
-	sleeperCalls := spySleeper.Calls
-	sleeperCallsWanted := 3
-	if sleeperCalls != sleeperCallsWanted {
-		t.Errorf("Sleeper was called %q times. Expected %q times.", sleeperCalls, sleeperCallsWanted)
-	}
+		if got != want {
+			t.Errorf("Got %q, wanted %q", got, want)
+		}
+		sleeperCalls := len(spySleeper.Calls)
+		sleeperCallsWanted := 3
+		if sleeperCalls != sleeperCallsWanted {
+			t.Errorf("Sleeper was called %q times. Expected %q times.", sleeperCalls, sleeperCallsWanted)
+		}
+	})
+	t.Run("Wait is called between each output", func(t *testing.T) {
+		operationsSpy := &OperationsSpy{}
+		Countdown(operationsSpy, operationsSpy)
+		want := []string{
+			write,
+			sleep,
+			write,
+			sleep,
+			write,
+			sleep,
+			write,
+		}
+		if !reflect.DeepEqual(want, operationsSpy.Calls) {
+			t.Errorf("Sleep and write were not called in alternating order.")
+		}
+	})
 }
+
+const (
+	write = "write"
+	sleep = "sleep"
+)
