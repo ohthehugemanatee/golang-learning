@@ -18,6 +18,15 @@ func (d DefaultSleeper) Sleep() {
 	time.Sleep(1 * time.Second)
 }
 
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(time.Duration)
+}
+
+func (c *ConfigurableSleeper) Sleep() {
+	c.sleep(c.duration)
+}
+
 // Countdown from 3
 func Countdown(writer io.Writer, sleeper Sleeper) {
 	for i := 3; i > 0; i-- {

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"reflect"
 	"testing"
+	"time"
 )
 
 type OperationsSpy struct {
@@ -17,6 +18,14 @@ func (s *OperationsSpy) Sleep() {
 func (s *OperationsSpy) Write(p []byte) (n int, err error) {
 	s.Calls = append(s.Calls, write)
 	return
+}
+
+type SpyTime struct {
+	durationSlept time.Duration
+}
+
+func (s *SpyTime) Sleep(duration time.Duration) {
+	s.durationSlept = duration
 }
 
 func TestCountdown(t *testing.T) {
@@ -54,6 +63,16 @@ Go!`
 			t.Errorf("Sleep and write were not called in alternating order. Call order was %v", operationsSpy.Calls)
 		}
 	})
+}
+
+func TestConfigurableSleeper(t *testing.T) {
+	sleepTime := 5 * time.Second
+	spyTime := &SpyTime{}
+	sleeper := ConfigurableSleeper{sleepTime, spyTime.Sleep}
+	sleeper.Sleep()
+	if spyTime.durationSlept != sleepTime {
+		t.Errorf("Expected sleep time of %q, got %q", sleepTime, spyTime.durationSlept)
+	}
 }
 
 const (
