@@ -34,8 +34,8 @@ func TestRacer(t *testing.T) {
 		url2 := timeoutServer2.URL
 
 		_, err := RaceWebsites([2]string{url1, url2})
-		if err == nil {
-			t.Error("Expected an error but didn't get one")
+		if err != ErrTimeout {
+			t.Errorf("Expected a timeout error and got %q", err)
 		}
 	})
 }
