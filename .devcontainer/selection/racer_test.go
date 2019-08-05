@@ -26,13 +26,14 @@ func TestRacer(t *testing.T) {
 		}
 	})
 	t.Run("Timeout after 10 seconds", func(t *testing.T) {
-		timeoutServer := createDelayedServer(12 * time.Second)
+		timeoutServer := createDelayedServer(2 * time.Second)
 		defer timeoutServer.Close()
-		timeoutServer2 := createDelayedServer(11 * time.Second)
+		timeoutServer2 := createDelayedServer(1 * time.Second)
 		defer timeoutServer2.Close()
 		url1 := timeoutServer.URL
 		url2 := timeoutServer2.URL
-
+		// Modify the timeout value so we don't have to wait during tests.
+		DefaultTimeout = 1 * time.Millisecond
 		_, err := RaceWebsites([2]string{url1, url2})
 		if err != ErrTimeout {
 			t.Errorf("Expected a timeout error and got %q", err)
