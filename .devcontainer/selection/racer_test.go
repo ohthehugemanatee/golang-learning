@@ -9,8 +9,11 @@ import (
 
 func TestRacer(t *testing.T) {
 	fastServer := createDelayedServer(0 * time.Millisecond)
-	fastURL := fastServer.URL
+	defer fastServer.Close()
 	slowServer := createDelayedServer(2 * time.Millisecond)
+	defer slowServer.Close()
+
+	fastURL := fastServer.URL
 	slowURL := slowServer.URL
 	urls := [2]string{fastURL, slowURL}
 
@@ -20,8 +23,7 @@ func TestRacer(t *testing.T) {
 	if got != want {
 		t.Errorf("Returned the wrong URL. Expected %q, got %q", want, got)
 	}
-	slowServer.Close()
-	fastServer.Close()
+
 }
 
 func createDelayedServer(delay time.Duration) *httptest.Server {
