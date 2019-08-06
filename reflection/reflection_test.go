@@ -20,6 +20,17 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"value1"},
 		},
+		{
+			Name: "Multiple string fields",
+			Input: struct {
+				Name string
+				City string
+			}{
+				"value1",
+				"value2",
+			},
+			ExpectedCalls: []string{"value1", "value2"},
+		},
 	}
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {
@@ -28,7 +39,7 @@ func TestWalk(t *testing.T) {
 				got = append(got, str)
 			})
 			if !reflect.DeepEqual(testCase.ExpectedCalls, got) {
-				t.Errorf("Wrong value in function call. Expected %s, got %s", testCase.ExpectedCalls[0], got[0])
+				t.Errorf("Wrong value in function call. Expected %v, got %v", testCase.ExpectedCalls, got)
 			}
 		})
 	}
