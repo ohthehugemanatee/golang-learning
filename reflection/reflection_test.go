@@ -24,7 +24,7 @@ func TestWalk(t *testing.T) {
 		{
 			Name: "Simple single string value",
 			Input: struct {
-				string
+				Name string
 			}{
 				"value1",
 			},

@@ -6,20 +6,16 @@ import "reflect"
 func Walk(x interface{}, userFunc func(input string)) {
 	val := getValue(x)
 
-	if val.Kind() == reflect.Slice {
+	switch val.Kind() {
+	case reflect.Slice:
 		for i := 0; i < val.Len(); i++ {
 			Walk(val.Index(i).Interface(), userFunc)
 		}
-		return
-	}
-
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Field(i)
-		switch field.Kind() {
-		case reflect.String:
-			userFunc(field.String())
-		case reflect.Struct:
-			Walk(field.Interface(), userFunc)
+	case reflect.String:
+		userFunc(val.String())
+	case reflect.Struct:
+		for i := 0; i < val.NumField(); i++ {
+			Walk(val.Field(i).Interface(), userFunc)
 		}
 	}
 }
