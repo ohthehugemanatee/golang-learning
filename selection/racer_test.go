@@ -32,7 +32,7 @@ func TestRacer(t *testing.T) {
 		defer timeoutServer2.Close()
 		url1 := timeoutServer.URL
 		url2 := timeoutServer2.URL
-		// Modify the timeout value so we don't have to wait during tests.
+		// Modify the timeout value so we don't have to wait during tests.``
 		DefaultTimeout = 1 * time.Millisecond
 		_, err := RaceWebsites([2]string{url1, url2})
 		if err != ErrTimeout {
