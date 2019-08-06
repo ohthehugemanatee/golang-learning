@@ -65,6 +65,17 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"value1", "value2"},
 		},
+		{
+			Name: "Pointers",
+			Input: &City{
+				"value1",
+				CityStats{
+					111,
+					"value2",
+				},
+			},
+			ExpectedCalls: []string{"value1", "value2"},
+		},
 	}
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {
