@@ -1,22 +1,35 @@
 package reflection
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 func TestWalk(t *testing.T) {
-	expected := "value1"
-	arr := struct {
-		string
+	testCases := []struct {
+		Name          string
+		Input         interface{}
+		ExpectedCalls []string
 	}{
-		expected,
+		{
+			Name: "Simple single string value",
+			Input: struct {
+				string
+			}{
+				"value1",
+			},
+			ExpectedCalls: []string{"value1"},
+		},
 	}
-	got := []string{}
-	Walk(arr, func(str string) {
-		got = append(got, str)
-	})
-	if len(got) != 1 {
-		t.Errorf("Function called the wrong number of times. Expected %d, got %d", 1, len(got))
-	}
-	if got[0] != expected {
-		t.Errorf("Wrong value in function call. Expected %s, got %s", expected, got[0])
+	for _, testCase := range testCases {
+		t.Run(testCase.Name, func(t *testing.T) {
+			got := []string{}
+			Walk(testCase.Input, func(str string) {
+				got = append(got, str)
+			})
+			if !reflect.DeepEqual(testCase.ExpectedCalls, got) {
+				t.Errorf("Wrong value in function call. Expected %s, got %s", testCase.ExpectedCalls[0], got[0])
+			}
+		})
 	}
 }
