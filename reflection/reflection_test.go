@@ -31,6 +31,19 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"value1", "value2"},
 		},
+		{
+			Name: "Mixed type fields",
+			Input: struct {
+				Name       string
+				City       string
+				Population int
+			}{
+				"value1",
+				"value2",
+				110,
+			},
+			ExpectedCalls: []string{"value1", "value2"},
+		},
 	}
 	for _, testCase := range testCases {
 		t.Run(testCase.Name, func(t *testing.T) {

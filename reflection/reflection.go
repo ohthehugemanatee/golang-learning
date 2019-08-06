@@ -7,6 +7,8 @@ func Walk(x interface{}, userFunc func(input string)) {
 	val := reflect.ValueOf(x)
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
-		userFunc(field.String())
+		if field.Kind() == reflect.String {
+			userFunc(field.String())
+		}
 	}
 }
