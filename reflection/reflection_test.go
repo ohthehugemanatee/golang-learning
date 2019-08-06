@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+type City struct {
+	Name  string
+	Stats CityStats
+}
+
+type CityStats struct {
+	Population int
+	Nickname   string
+}
+
 func TestWalk(t *testing.T) {
 	testCases := []struct {
 		Name          string
@@ -41,6 +51,17 @@ func TestWalk(t *testing.T) {
 				"value1",
 				"value2",
 				110,
+			},
+			ExpectedCalls: []string{"value1", "value2"},
+		},
+		{
+			Name: "Nested fields",
+			Input: City{
+				"value1",
+				CityStats{
+					111,
+					"value2",
+				},
 			},
 			ExpectedCalls: []string{"value1", "value2"},
 		},
